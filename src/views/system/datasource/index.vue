@@ -35,7 +35,7 @@
         </el-row>
       </template>
 
-      <el-table v-loading="loading" :data="datasourceConfigList" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" :data="datasourceList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="租户编号" align="center" prop="tenantId" />
         <el-table-column label="数据源名称" align="center" prop="name" />
@@ -64,10 +64,10 @@
       />
     </el-card>
     <!-- 添加或修改多数据源配置对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" @close="cancel" append-to-body>
       <el-form ref="datasourceFormRef" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="租户" prop="tenantId" v-if="tenantEnabled">
-          <el-select v-model="form.tenantId" :disabled="!!form.tenantId" placeholder="请选择租户" clearable style="width: 240px">
+          <el-select v-model="form.tenantId" :disabled="dialog.isEdit" placeholder="请选择租户" clearable style="width: 240px">
             <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId"/>
           </el-select>
         </el-form-item>
@@ -97,7 +97,7 @@
   </div>
 </template>
 
-<script setup name="DatasourceConfig" lang="ts">
+<script setup name="Datasource" lang="ts">
 import {getDatasource, delDatasource, addDatasource, updateDatasource, listDatasource} from '@/api/system/datasource';
 import { DatasourceVO, DatasourceQuery, DatasourceForm } from '@/api/system/datasource/types';
 import {getTenantList} from "@/api/login";
@@ -105,7 +105,7 @@ import {TenantVO} from "@/api/types";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
-const datasourceConfigList = ref<DatasourceVO[]>([]);
+const datasourceList = ref<DatasourceVO[]>([]);
 const buttonLoading = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -121,9 +121,10 @@ const tenantList = ref<TenantVO[]>([]);
 const queryFormRef = ref<ElFormInstance>();
 const datasourceFormRef = ref<ElFormInstance>();
 
-const dialog = reactive<DialogOption>({
+const dialog = reactive<EditDialogOption>({
   visible: false,
-  title: ''
+  title: '',
+  isEdit: false,
 });
 
 const initFormData: DatasourceForm = {
@@ -178,7 +179,7 @@ const { queryParams, form, rules } = toRefs(data);
 const getList = async () => {
   loading.value = true;
   const res = await listDatasource(queryParams.value);
-  datasourceConfigList.value = res.rows;
+  datasourceList.value = res.rows;
   total.value = res.total;
   loading.value = false;
 }
@@ -187,6 +188,7 @@ const getList = async () => {
 const cancel = () => {
   reset();
   dialog.visible = false;
+  dialog.isEdit = false;
 }
 
 /** 表单重置 */
@@ -222,9 +224,6 @@ const initTenantList = async () => {
   tenantEnabled.value = data.tenantEnabled === undefined ? true : data.tenantEnabled;
   if (tenantEnabled.value) {
     tenantList.value = data.voList;
-    if (tenantList.value != null && tenantList.value.length !== 0) {
-      queryParams.value.tenantId = tenantList.value[0].tenantId;
-    }
   }
 }
 
@@ -241,6 +240,7 @@ const handleAdd = () => {
 const handleUpdate = (row?: DatasourceVO) => {
   loading.value = true
   dialog.visible = true;
+  dialog.isEdit = true;
   dialog.title = "修改多数据源配置";
   nextTick(async () => {
     reset();
@@ -263,6 +263,7 @@ const submitForm = () => {
       }
       proxy?.$modal.msgSuccess("修改成功");
       dialog.visible = false;
+      dialog.isEdit = false;
       await getList();
     }
   });

@@ -1,3 +1,4 @@
+const {EditDialogOption} = require("@/types/global.d");
 module.exports = {
   env: {
     browser: true,
@@ -37,6 +38,7 @@ module.exports = {
   },
   globals: {
     DialogOption: 'readonly',
+    EditDialogOption: 'readonly',
     OptionType: 'readonly'
   }
 };

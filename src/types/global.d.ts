@@ -30,6 +30,24 @@ declare global {
     visible: boolean;
   }
 
+  /**
+   * 编辑弹窗属性
+   */
+  declare interface EditDialogOption {
+    /**
+     * 弹窗标题
+     */
+    title?: string;
+    /**
+     * 是否显示
+     */
+    visible: boolean;
+    /**
+     * 是否编辑
+     */
+    isEdit: boolean;
+  }
+
   declare interface UploadOption {
     /** 设置上传的请求头部 */
     headers: { [key: string]: any };
