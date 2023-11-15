@@ -1,4 +1,3 @@
-const {EditDialogOption} = require("@/types/global.d");
 module.exports = {
   env: {
     browser: true,
