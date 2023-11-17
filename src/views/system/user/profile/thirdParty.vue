@@ -10,9 +10,9 @@
       </el-table-column>
       <el-table-column label="系统账号" width="180" align="center" prop="userName" :show-overflow-tooltip="true"/>
       <el-table-column label="绑定时间" width="180" align="center" prop="createTime"/>
-      <el-table-column label="操作" width="80" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="140" align="center" class-name="small-padding fixed-width">
         <template v-slot="scope">
-          <el-button size="small" type="danger" plain icon="Unlock" @click="unlockAuth(scope.row)">解绑</el-button>
+          <el-button type="danger" icon="Unlock" @click="unlockAuth(scope.row)">解绑</el-button>
         </template>
       </el-table-column>
     </el-table>
