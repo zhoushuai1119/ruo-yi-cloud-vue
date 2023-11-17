@@ -25,7 +25,7 @@ const processResponse = async (res: any) => {
   if (res.code !== 200) {
     throw new Error(res.msg);
   }
-  if (res.data !== null) {
+  if (res.data !== null && typeof res.data !== 'undefined') {
     setToken(res.data.access_token);
   }
   ElMessage.success(res.msg);
