@@ -126,6 +126,7 @@
 <script setup name="Cache" lang="ts">
 import { getCache } from '@/api/monitor/cache';
 import * as echarts from 'echarts';
+import { Monitor, Odometer, PieChart } from "@element-plus/icons-vue";
 
 const cache = ref<any>({});
 const commandstats = ref();
