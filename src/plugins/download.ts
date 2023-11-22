@@ -18,6 +18,7 @@ export default {
         responseType: 'blob',
         headers: globalHeaders()
       });
+      console.log('download oss res', res);
       const isBlob = blobValidate(res.data);
       if (isBlob) {
         const blob = new Blob([res.data], { type: 'application/octet-stream' });
@@ -42,6 +43,7 @@ export default {
         responseType: 'blob',
         headers: globalHeaders()
       });
+      console.log('download zip res', res);
       const isBlob = blobValidate(res.data);
       if (isBlob) {
         const blob = new Blob([res.data], { type: 'application/zip' });

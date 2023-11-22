@@ -96,14 +96,14 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (res: AxiosResponse) => {
+    // 二进制数据则直接返回
+    if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
+      return res;
+    }
     // 未设置状态码则默认成功状态
     const code = res.data.code || HttpStatus.SUCCESS;
     // 获取错误信息
     const msg = errorCode[code] || res.data.msg || errorCode['default'];
-    // 二进制数据则直接返回
-    if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
-      return res.data;
-    }
     if (code === 401) {
       // prettier-ignore
       if (!isRelogin.show) {
@@ -162,9 +162,10 @@ export function download(url: string, params: any, fileName: string) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       responseType: 'blob'
     }).then(async (resp: any) => {
-      const isLogin = blobValidate(resp);
-      if (isLogin) {
-        const blob = new Blob([resp]);
+      console.log('general download res', resp);
+      const isBlob = blobValidate(resp.data);
+      if (isBlob) {
+        const blob = new Blob([resp.data]);
         FileSaver.saveAs(blob, fileName);
       } else {
         const resText = await resp.data.text();

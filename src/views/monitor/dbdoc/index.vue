@@ -21,7 +21,7 @@ const src = ref('')
 const init = async () => {
   try {
     const res = await DbDocApi.exportHtml();
-    const blob = new Blob([res as any], {type: 'text/html'});
+    const blob = new Blob([res.data], {type: 'text/html'});
     src.value = window.URL.createObjectURL(blob);
   } finally {
     loading.value = false;
@@ -32,15 +32,15 @@ const init = async () => {
 const handleExport = async (type: string) => {
   if (type === 'HTML') {
     const res = await DbDocApi.exportHtml();
-    proxy?.$download.export(res as any, '数据库文档.html', 'text/html');
+    proxy?.$download.export(res.data, '数据库文档.html', 'text/html');
   }
   if (type === 'Word') {
     const res = await DbDocApi.exportWord();
-    proxy?.$download.export(res as any, '数据库文档.doc', 'application/msword');
+    proxy?.$download.export(res.data, '数据库文档.doc', 'application/msword');
   }
   if (type === 'Markdown') {
     const res = await DbDocApi.exportMarkdown();
-    proxy?.$download.export(res as any, '数据库文档.md', 'text/markdown');
+    proxy?.$download.export(res.data, '数据库文档.md', 'text/markdown');
   }
 }
 
