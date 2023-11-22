@@ -1,5 +1,6 @@
 <template>
   <div class="p-2">
+    <doc-alert title="多数据源文档" url="https://www.kancloud.cn/tracy5546/dynamic-datasource/2264611" />
     <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="search" v-show="showSearch">
         <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">

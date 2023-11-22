@@ -23,7 +23,7 @@ export default {
         const blob = new Blob([res.data], { type: 'application/octet-stream' });
         FileSaver.saveAs(blob, decodeURIComponent(res.headers['download-filename'] as string));
       } else {
-        this.printErrMsg(res.data);
+        await this.printErrMsg(res.data);
       }
       downloadLoadingInstance.close();
     } catch (r) {
@@ -47,7 +47,7 @@ export default {
         const blob = new Blob([res.data], { type: 'application/zip' });
         FileSaver.saveAs(blob, name);
       } else {
-        this.printErrMsg(res.data);
+        await this.printErrMsg(res.data);
       }
       downloadLoadingInstance.close();
     } catch (r) {
@@ -55,6 +55,19 @@ export default {
       ElMessage.error('下载文件出现错误，请联系管理员！');
       downloadLoadingInstance.close();
     }
+  },
+  async export(data: Blob, fileName: string, mineType: string) {
+    // 创建 blob
+    const blob = new Blob([data], {type: mineType});
+    // 创建 href 超链接，点击进行下载
+    window.URL = window.URL || window.webkitURL;
+    const href = URL.createObjectURL(blob);
+    const downA = document.createElement('a');
+    downA.href = href;
+    downA.download = fileName;
+    downA.click();
+    // 销毁超连接
+    window.URL.revokeObjectURL(href);
   },
   async printErrMsg(data: any) {
     const resText = await data.text();
