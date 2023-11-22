@@ -4,7 +4,7 @@ import request from '@/utils/request';
 export function exportHtml() {
   return request({
     url: '/monitor/database/doc/exportHtml',
-    method: 'get',
+    method: 'post',
     responseType: 'blob'
   });
 }
@@ -13,7 +13,7 @@ export function exportHtml() {
 export function exportMarkdown() {
   return request({
     url: '/monitor/database/doc/exportMarkdown',
-    method: 'get',
+    method: 'post',
     responseType: 'blob'
   });
 }
@@ -22,7 +22,7 @@ export function exportMarkdown() {
 export function exportWord() {
   return request({
     url: '/monitor/database/doc/exportWord',
-    method: 'get',
+    method: 'post',
     responseType: 'blob'
   });
 }
