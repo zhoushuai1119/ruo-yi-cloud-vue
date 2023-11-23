@@ -37,11 +37,6 @@ export interface DatasourceForm extends BaseEntity {
   id?: string | number;
 
   /**
-   * 租户id
-   */
-  tenantId?: string;
-
-  /**
    * 数据源名称
    */
   name?: string;
@@ -68,11 +63,6 @@ export interface DatasourceForm extends BaseEntity {
 }
 
 export interface DatasourceQuery extends PageQuery {
-
-  /**
-   * 租户id
-   */
-  tenantId?: string;
 
   /**
    * 数据源名称

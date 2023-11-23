@@ -4,10 +4,8 @@
     <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="search" v-show="showSearch">
         <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
-          <el-form-item label="租户" prop="tenantId" v-if="tenantEnabled">
-            <el-select v-model="queryParams.tenantId" placeholder="请选择租户" clearable style="width: 240px">
-              <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId"></el-option>
-            </el-select>
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="queryParams.name" placeholder="请输入数据源名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -38,7 +36,6 @@
 
       <el-table v-loading="loading" :data="datasourceList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="租户编号" align="center" prop="tenantId" />
         <el-table-column label="数据源名称" align="center" prop="name" />
         <el-table-column label="数据库驱动" align="center" prop="driverClassName" />
         <el-table-column label="数据库连接地址" align="center" prop="url" />
@@ -67,11 +64,6 @@
     <!-- 添加或修改多数据源配置对话框 -->
     <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" @close="cancel" append-to-body>
       <el-form ref="datasourceFormRef" :model="form" :rules="rules" label-width="120px">
-        <el-form-item label="租户" prop="tenantId" v-if="tenantEnabled">
-          <el-select v-model="form.tenantId" :disabled="dialog.isEdit" placeholder="请选择租户" clearable style="width: 240px">
-            <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId"/>
-          </el-select>
-        </el-form-item>
         <el-form-item label="数据源名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入数据源名称" />
         </el-form-item>
@@ -101,8 +93,6 @@
 <script setup name="Datasource" lang="ts">
 import {getDatasource, delDatasource, addDatasource, updateDatasource, listDatasource} from '@/api/system/datasource';
 import { DatasourceVO, DatasourceQuery, DatasourceForm } from '@/api/system/datasource/types';
-import {getTenantList} from "@/api/login";
-import {TenantVO} from "@/api/types";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
@@ -114,10 +104,6 @@ const ids = ref<Array<string | number>>([]);
 const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
-// 租户开关
-const tenantEnabled = ref(true);
-// 租户列表
-const tenantList = ref<TenantVO[]>([]);
 
 const queryFormRef = ref<ElFormInstance>();
 const datasourceFormRef = ref<ElFormInstance>();
@@ -130,7 +116,6 @@ const dialog = reactive<EditDialogOption>({
 
 const initFormData: DatasourceForm = {
   id: undefined,
-  tenantId: undefined,
   name: undefined,
   driverClassName: undefined,
   url: undefined,
@@ -142,7 +127,6 @@ const data = reactive<PageData<DatasourceForm, DatasourceQuery>>({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    tenantId: undefined,
     name: undefined,
     driverClassName: undefined,
     url: undefined,
@@ -152,9 +136,6 @@ const data = reactive<PageData<DatasourceForm, DatasourceQuery>>({
   rules: {
     id: [
       { required: true, message: "主键ID不能为空", trigger: "blur" }
-    ],
-    tenantId: [
-      { required: true, message: "租户不能为空", trigger: "blur" }
     ],
     name: [
       { required: true, message: "数据源名称不能为空", trigger: "blur" }
@@ -217,17 +198,6 @@ const handleSelectionChange = (selection: DatasourceVO[]) => {
   multiple.value = !selection.length;
 }
 
-/**
- * 获取租户列表
- */
-const initTenantList = async () => {
-  const { data } = await getTenantList();
-  tenantEnabled.value = data.tenantEnabled === undefined ? true : data.tenantEnabled;
-  if (tenantEnabled.value) {
-    tenantList.value = data.voList;
-  }
-}
-
 /** 新增按钮操作 */
 const handleAdd = () => {
   dialog.visible = true;
@@ -288,6 +258,5 @@ const handleExport = () => {
 
 onMounted(() => {
   getList();
-  initTenantList();
 });
 </script>
