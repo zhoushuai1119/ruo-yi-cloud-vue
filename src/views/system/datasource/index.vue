@@ -2,7 +2,7 @@
   <div class="p-2">
     <doc-alert title="多数据源文档" url="https://www.kancloud.cn/tracy5546/dynamic-datasource/2264611" />
     <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div class="search" v-show="showSearch">
+      <div class="mb-[10px]" v-show="showSearch">
         <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
           <el-form-item label="名称" prop="name">
             <el-input v-model="queryParams.name" placeholder="请输入数据源名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
@@ -127,11 +127,7 @@ const data = reactive<PageData<DatasourceForm, DatasourceQuery>>({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    name: undefined,
-    driverClassName: undefined,
-    url: undefined,
-    userName: undefined,
-    password: undefined
+    name: undefined
   },
   rules: {
     id: [

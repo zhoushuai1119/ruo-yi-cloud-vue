@@ -69,23 +69,4 @@ export interface DatasourceQuery extends PageQuery {
    */
   name?: string;
 
-  /**
-   * 数据库驱动
-   */
-  driverClassName?: string;
-
-  /**
-   * 数据库连接地址
-   */
-  url?: string;
-
-  /**
-   * 数据库用户名
-   */
-  userName?: string;
-
-  /**
-   * 数据库密码
-   */
-  password?: string;
 }
