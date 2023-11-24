@@ -42,16 +42,16 @@
         ref="menuTableRef"
         :default-expand-all="isExpandAll"
       >
-        <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
-        <el-table-column prop="icon" label="图标" align="center" width="100">
+        <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="220"></el-table-column>
+        <el-table-column prop="icon" label="图标" align="center" width="120">
           <template #default="scope">
             <svg-icon :icon-class="scope.row.icon" />
           </template>
         </el-table-column>
-        <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
+        <el-table-column prop="orderNum" label="排序" width="100"></el-table-column>
         <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="status" label="状态" width="80">
+        <el-table-column prop="status" label="状态" width="140">
           <template #default="scope">
             <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
           </template>
@@ -61,7 +61,7 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="180">
+        <el-table-column fixed="right" label="操作" width="240">
           <template #default="scope">
             <el-tooltip content="修改" placement="top">
               <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:menu:edit']" />
