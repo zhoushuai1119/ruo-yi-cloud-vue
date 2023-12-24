@@ -29,7 +29,7 @@
           * 分布式监控 Prometheus、Grafana 全方位性能监控<br />
           * 其余与 Vue 版本一致<br />
         </p>
-        <p><b>当前版本:</b> <span>v2.1.1</span></p>
+        <p><b>当前版本:</b> <span>v2.1.2</span></p>
         <p>
           <el-tag type="danger">&yen;免费开源</el-tag>
         </p>

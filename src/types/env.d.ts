@@ -67,6 +67,7 @@ interface ImportMetaEnv {
   VITE_APP_KNIFE4J_ADMIN: string;
   VITE_APP_ENV: string;
   VITE_APP_RSA_PUBLIC_KEY: string;
+  VITE_APP_RSA_PRIVATE_KEY: string;
   VITE_APP_CLIENT_ID: string;
   VITE_APP_WEBSOCKET: string;
 }
