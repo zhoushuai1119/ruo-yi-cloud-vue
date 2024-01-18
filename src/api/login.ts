@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 import {AxiosPromise} from 'axios';
-import {LoginData, LoginResult, VerifyCodeResult, TenantInfo} from './types';
+import {LoginData, LoginResult, VerifyCodeResult, TenantInfo, SliderCaptchaImageResult} from './types';
 import {UserInfo} from '@/api/system/user/types';
 
 // pc端固定客户端授权id
@@ -61,6 +61,20 @@ export function logout() {
 export function getCodeImg(): AxiosPromise<VerifyCodeResult> {
   return request({
     url: '/auth/code',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
+  });
+}
+
+/**
+ * 获取滑块验证码
+ */
+export function getSliderCaptchaImg(): AxiosPromise<SliderCaptchaImageResult> {
+  return request({
+    url: '/auth/slider/captcha/image',
     headers: {
       isToken: false
     },
