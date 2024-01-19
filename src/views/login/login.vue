@@ -135,7 +135,7 @@ const loginbtn = () => {
     }
   };
   const style = {
-    logoUrl: "src/assets/images/logo.png"
+    logoUrl: "src/assets/images/captcha-slider.png"
   };
   new window.TAC(config, style).init();
 };
