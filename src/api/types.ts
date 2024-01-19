@@ -45,17 +45,6 @@ export interface VerifyCodeResult {
 }
 
 /**
- * 滑块验证码返回
- */
-export interface SliderCaptchaImageResult {
-  type: string;
-  backgroundImage?: string;
-  templateImage?: string;
-  backgroundImageTag?: string;
-  templateImageTag?: string;
-}
-
-/**
  * 租户
  */
 export interface TenantVO {
