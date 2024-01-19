@@ -123,7 +123,6 @@ watch(() => router.currentRoute.value, (newRoute: any) => {
 }, {immediate: true});
 
 const loginbtn = () => {
-// 样式配置
   const config = {
     requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image",
     validCaptchaUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/check",
