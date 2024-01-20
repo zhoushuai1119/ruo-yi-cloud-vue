@@ -124,13 +124,19 @@ watch(() => router.currentRoute.value, (newRoute: any) => {
 
 const loginbtn = () => {
   const config = {
-    requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image",
+    requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image?type=RANDOM",
     validCaptchaUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/check",
     bindEl: "#captcha-div",
     // 验证成功回调函数
     validSuccess: (res: any, c: any, tac: any) => {
       handleLogin();
       tac.destroyWindow();
+    },
+    // 验证失败的回调函数(可忽略; 如果不自定义会使用默认的)
+    validFail: (res: any, c: any, tac: any) => {
+      console.log('滑块验证码验证失败重新拉取验证码');
+      // 验证失败后重新拉取验证码
+      tac.reloadCaptcha();
     }
   };
   const style = {
