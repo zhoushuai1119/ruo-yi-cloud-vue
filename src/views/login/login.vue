@@ -38,7 +38,7 @@
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 0px 0px;">记住密码</el-checkbox>
-      <el-divider>其他登录方式</el-divider>
+      <el-divider>第三方登录</el-divider>
       <div style="text-align: center">
         <el-form-item style="display: inline-block">
           <el-button circle title="微信登录" @click="doSocialLogin('wechat')">
