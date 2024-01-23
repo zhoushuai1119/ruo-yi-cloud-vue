@@ -38,6 +38,15 @@
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 0px 0px;">记住密码</el-checkbox>
+      <el-form-item style="padding: 10px 0px;">
+        <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
+          <span v-if="!loading">登 录</span>
+          <span v-else>登 录 中...</span>
+        </el-button>
+        <div style="float: right;" v-if="register">
+          <router-link class="link-type" :to="'/register'">立即注册</router-link>
+        </div>
+      </el-form-item>
       <el-divider>第三方登录</el-divider>
       <div style="text-align: center">
         <el-form-item style="display: inline-block">
@@ -52,15 +61,6 @@
           </el-button>
         </el-form-item>
       </div>
-      <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
-      </el-form-item>
     </el-form>
     <div id="captcha-div"></div>
     <!--  底部  -->
