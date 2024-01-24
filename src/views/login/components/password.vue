@@ -1,82 +1,59 @@
 <template>
-  <div class="login">
-    <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">RuoYi-Cloud-Plus多租户管理系统</h3>
-      <el-form-item prop="tenantId" v-if="tenantEnabled">
-        <el-select v-model="loginForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
-          <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName"
-                     :value="item.tenantId"></el-option>
-          <template #prefix>
-            <svg-icon icon-class="company" class="el-input__icon input-icon"/>
-          </template>
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
-          <template #prefix>
-            <svg-icon icon-class="user" class="el-input__icon input-icon"/>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
-                  @keyup.enter="handleLogin">
-          <template #prefix>
-            <svg-icon icon-class="password" class="el-input__icon input-icon"/>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%"
-                  @keyup.enter="handleLogin">
-          <template #prefix>
-            <svg-icon icon-class="validCode" class="el-input__icon input-icon"/>
-          </template>
-        </el-input>
-        <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
-        </div>
-      </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 0px 0px;">记住密码</el-checkbox>
-      <el-form-item style="padding: 10px 0px;">
-        <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
-      </el-form-item>
-      <el-divider>第三方登录</el-divider>
-      <div style="text-align: center">
-        <el-form-item style="display: inline-block">
-          <el-button circle title="微信登录" @click="doSocialLogin('wechat')">
-            <svg-icon icon-class="wechat"/>
-          </el-button>
-          <el-button circle title="Gitee登录" @click="doSocialLogin('gitee')">
-            <svg-icon icon-class="gitee"/>
-          </el-button>
-          <el-button circle title="Github登录" @click="doSocialLogin('github')">
-            <svg-icon icon-class="github"/>
-          </el-button>
-        </el-form-item>
+  <el-form ref="loginRef" :model="loginForm" :rules="loginRules">
+    <el-form-item prop="tenantId" v-if="tenantEnabled">
+      <el-select v-model="loginForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
+        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName"
+                   :value="item.tenantId"></el-option>
+        <template #prefix>
+          <svg-icon icon-class="company" class="el-input__icon input-icon"/>
+        </template>
+      </el-select>
+    </el-form-item>
+    <el-form-item prop="username">
+      <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
+        <template #prefix>
+          <svg-icon icon-class="user" class="el-input__icon input-icon"/>
+        </template>
+      </el-input>
+    </el-form-item>
+    <el-form-item prop="password">
+      <el-input v-model="loginForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
+                @keyup.enter="handleLogin">
+        <template #prefix>
+          <svg-icon icon-class="password" class="el-input__icon input-icon"/>
+        </template>
+      </el-input>
+    </el-form-item>
+    <el-form-item prop="code" v-if="captchaEnabled">
+      <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%"
+                @keyup.enter="handleLogin">
+        <template #prefix>
+          <svg-icon icon-class="validCode" class="el-input__icon input-icon"/>
+        </template>
+      </el-input>
+      <div class="login-code">
+        <img :src="codeUrl" @click="getCode" class="login-code-img"/>
       </div>
-    </el-form>
-    <div id="captcha-div"></div>
-    <!--  底部  -->
-    <div class="el-login-footer">
-      <span>Copyright © 2018-2023 shuai.zhou All Rights Reserved.</span>
-    </div>
-  </div>
+    </el-form-item>
+    <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 0px 0px;">记住密码</el-checkbox>
+    <el-form-item style="padding: 10px 0px;">
+      <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
+        <span v-if="!loading">登 录</span>
+        <span v-else>登 录 中...</span>
+      </el-button>
+      <div style="float: right;" v-if="register">
+        <router-link class="link-type" :to="'/register'">立即注册</router-link>
+      </div>
+    </el-form-item>
+  </el-form>
+  <div id="captcha-div"></div>
 </template>
 
 <script setup lang="ts">
 import {getCodeImg, getTenantList} from '@/api/login';
-import {authBinding} from '@/api/system/social/auth';
 import {useUserStore} from '@/store/modules/user';
 import {LoginData, TenantVO} from '@/api/types';
 import {to} from 'await-to-js';
-import {HttpStatus} from "@/enums/RespEnum";
 import "@/assets/styles/captcha/css/tac.css";
 import "@/assets/styles/captcha/js/jquery.min.js";
 import "@/assets/styles/captcha/js/tac.min.js";
@@ -223,21 +200,6 @@ watch(() => loginForm.value.tenantId, () => {
   localStorage.setItem("tenantId", String(loginForm.value.tenantId))
 });
 
-/**
- * 第三方登录
- * @param type
- */
-const doSocialLogin = (type: string) => {
-  authBinding(type).then((res: any) => {
-    if (res.code === HttpStatus.SUCCESS) {
-      // 获取授权地址跳转
-      window.location.href = res.data;
-    } else {
-      ElMessage.error(res.msg);
-    }
-  });
-};
-
 onMounted(() => {
   getCode();
   initTenantList();
@@ -246,42 +208,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-image: url("@/assets/images/login-background.jpg");
-  background-size: cover;
-}
-
-.title {
-  margin: 0px auto 30px auto;
-  text-align: center;
-  color: #707070;
-}
-
-.login-form {
-  border-radius: 6px;
-  background: #ffffff;
-  width: 400px;
-  padding: 25px 25px 5px 25px;
-
-  .el-input {
-    height: 40px;
-
-    input {
-      height: 40px;
-    }
-  }
-
-  .input-icon {
-    height: 39px;
-    width: 14px;
-    margin-left: 0px;
-  }
-}
-
 .login-tip {
   font-size: 13px;
   text-align: center;

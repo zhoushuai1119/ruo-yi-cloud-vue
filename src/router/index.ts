@@ -44,12 +44,12 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/login',
-    component: () => import('@/views/login/login.vue'),
+    component: () => import('@/views/login/index.vue'),
     hidden: true
   },
   {
     path: '/register',
-    component: () => import('@/views/login/register.vue'),
+    component: () => import('@/views/login/components/register.vue'),
     hidden: true
   },
   {
