@@ -139,7 +139,7 @@ const loginbtn = () => {
   const style = {
     logoUrl: "src/assets/images/captcha-slider.png"
   };
-  new window.TAC(config, style).init();
+  new (window as any).TAC(config, style).init();
 };
 
 const handleLogin = () => {
