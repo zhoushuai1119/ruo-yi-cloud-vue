@@ -23,6 +23,9 @@
           <svg-icon icon-class="validCode" class="el-input__icon input-icon"/>
         </template>
       </el-input>
+      <div class="sms-code">
+        <el-button>111</el-button>
+      </div>
     </el-form-item>
     <el-form-item style="padding: 10px 0px 0px 0px;">
       <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
@@ -36,17 +39,18 @@
       </el-button>
     </div>
   </el-form>
+  <div id="sms-captcha-div"></div>
 </template>
 
 <script setup lang="ts">
-import { getTenantList } from '@/api/login';
-import { LoginStateEnum, useLoginState } from './loginState';
-import { useUserStore } from '@/store/modules/user';
-import { LoginData, TenantVO } from '@/api/types';
+import {getTenantList} from '@/api/login';
+import {LoginStateEnum, useLoginState} from './loginState';
+import {useUserStore} from '@/store/modules/user';
+import {LoginData, TenantVO} from '@/api/types';
 import "@/assets/styles/captcha/css/tac.css";
 import "@/assets/styles/captcha/js/jquery.min.js";
 import "@/assets/styles/captcha/js/tac.min.js";
-import { to } from "await-to-js";
+import {to} from "await-to-js";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -93,7 +97,7 @@ const loginbtn = () => {
   const config = {
     requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image?type=RANDOM",
     validCaptchaUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/check",
-    bindEl: "#captcha-div",
+    bindEl: "#sms-captcha-div",
     // 验证成功回调函数
     validSuccess: (res: any, c: any, tac: any) => {
       handleLogin();
@@ -140,5 +144,16 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.sms-code {
+  width: 33%;
+  height: 40px;
+  float: right;
+}
 
+#sms-captcha-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
