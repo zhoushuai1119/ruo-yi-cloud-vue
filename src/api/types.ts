@@ -19,10 +19,12 @@ export interface LoginData {
   username?: string;
   password?: string;
   rememberMe?: boolean;
+  phonenumber?: string;
   socialCode?: string;
   socialState?: string;
   source?: string;
   code?: string;
+  smsCode?: string;
   uuid?: string;
   clientId: string;
   grantType: string;
