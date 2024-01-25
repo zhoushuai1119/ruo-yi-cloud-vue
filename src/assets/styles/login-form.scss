@@ -24,4 +24,11 @@
     color: #707070;
     font-weight: bold;
   }
+
+  .login-state-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 0px 0px 15px 0px;
+  }
 }

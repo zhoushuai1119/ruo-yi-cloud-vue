@@ -3,12 +3,20 @@
     <div class="login-form">
       <Password />
       <QrCode />
-      <div v-if="!isScan">
-        <el-form-item style="padding: 0px 0px 15px 0px;">
-          <el-button plain size="large" style="width:100%;" @click="setLoginState(LoginStateEnum.QR_CODE)">
+      <Register />
+      <Mobile />
+      <div v-if="isAccountLogin">
+        <div class="login-state-container">
+          <el-button style="flex: 1" plain title="手机登录" @click="setLoginState(LoginStateEnum.MOBILE)">
+            <span>手机登录</span>
+          </el-button>
+          <el-button style="flex: 1;margin: 0" plain title="二维码登录" @click="setLoginState(LoginStateEnum.QR_CODE)">
             <span>二维码登录</span>
           </el-button>
-        </el-form-item>
+          <el-button style="flex: 1;margin: 0" plain title="注册" @click="setLoginState(LoginStateEnum.REGISTER)">
+            <span>注册</span>
+          </el-button>
+        </div>
         <el-divider>第三方登录</el-divider>
         <div style="text-align: center">
           <el-form-item style="display: inline-block">
@@ -33,16 +41,19 @@
 </template>
 
 <script setup lang="ts">
-import { authBinding } from '@/api/system/social/auth';
-import { HttpStatus } from "@/enums/RespEnum";
-import { LoginStateEnum, useLoginState } from './components/loginState';
+import {authBinding} from '@/api/system/social/auth';
+import {HttpStatus} from "@/enums/RespEnum";
+import {LoginStateEnum, useLoginState} from './components/loginState';
 
 import Password from './components/password.vue';
 import QrCode from './components/qrcode.vue';
+import Register from './components/register.vue';
+import Mobile from './components/mobile.vue';
 
-const { getLoginState,setLoginState } = useLoginState();
+const {getLoginState, setLoginState} = useLoginState();
 
-const isScan = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE);
+// 是否是账号密码登录
+const isAccountLogin = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
 
 /**
  * 第三方登录

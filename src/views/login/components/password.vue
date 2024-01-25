@@ -42,9 +42,6 @@
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
       </el-button>
-      <div style="float: right;" v-if="register">
-        <router-link class="link-type" :to="'/register'">立即注册</router-link>
-      </div>
     </el-form-item>
   </el-form>
   <div id="captcha-div"></div>
@@ -90,8 +87,6 @@ const captchaEnabled = ref(true);
 const tenantEnabled = ref(true);
 
 
-// 注册开关
-const register = ref(false);
 const redirect = ref(undefined);
 const loginRef = ref<ElFormInstance>();
 // 租户列表
