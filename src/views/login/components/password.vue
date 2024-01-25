@@ -1,5 +1,6 @@
 <template>
   <el-form v-show="getShow" ref="loginRef" :model="loginForm" :rules="loginRules">
+    <h3 class="title">RuoYi-Cloud-Plus多租户管理系统</h3>
     <el-form-item prop="tenantId" v-if="tenantEnabled">
       <el-select v-model="loginForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
         <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName"

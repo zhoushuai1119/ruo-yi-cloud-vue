@@ -1,27 +1,28 @@
 <template>
   <div class="login">
     <div class="login-form">
-      <h3 class="title">RuoYi-Cloud-Plus多租户管理系统</h3>
       <Password />
       <QrCode />
-      <el-form-item style="padding: 0px 0px 15px 0px;">
-        <el-button plain size="large" style="width:100%;" @click="setLoginState(LoginStateEnum.QR_CODE)">
-          <span>二维码登录</span>
-        </el-button>
-      </el-form-item>
-      <el-divider>第三方登录</el-divider>
-      <div style="text-align: center">
-        <el-form-item style="display: inline-block">
-          <el-button circle title="微信登录" @click="doSocialLogin('wechat')">
-            <svg-icon icon-class="wechat"/>
-          </el-button>
-          <el-button circle title="Gitee登录" @click="doSocialLogin('gitee')">
-            <svg-icon icon-class="gitee"/>
-          </el-button>
-          <el-button circle title="Github登录" @click="doSocialLogin('github')">
-            <svg-icon icon-class="github"/>
+      <div v-if="!isScan">
+        <el-form-item style="padding: 0px 0px 15px 0px;">
+          <el-button plain size="large" style="width:100%;" @click="setLoginState(LoginStateEnum.QR_CODE)">
+            <span>二维码登录</span>
           </el-button>
         </el-form-item>
+        <el-divider>第三方登录</el-divider>
+        <div style="text-align: center">
+          <el-form-item style="display: inline-block">
+            <el-button circle title="微信登录" @click="doSocialLogin('wechat')">
+              <svg-icon icon-class="wechat"/>
+            </el-button>
+            <el-button circle title="Gitee登录" @click="doSocialLogin('gitee')">
+              <svg-icon icon-class="gitee"/>
+            </el-button>
+            <el-button circle title="Github登录" @click="doSocialLogin('github')">
+              <svg-icon icon-class="github"/>
+            </el-button>
+          </el-form-item>
+        </div>
       </div>
     </div>
     <!--  底部  -->
@@ -39,7 +40,9 @@ import { LoginStateEnum, useLoginState } from './components/loginState';
 import Password from './components/password.vue';
 import QrCode from './components/qrcode.vue';
 
-const { setLoginState } = useLoginState();
+const { getLoginState,setLoginState } = useLoginState();
+
+const isScan = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE);
 
 /**
  * 第三方登录
@@ -58,12 +61,6 @@ const doSocialLogin = (type: string) => {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  margin: 0px auto 30px auto;
-  text-align: center;
-  color: #707070;
-}
-
 .login {
   display: flex;
   justify-content: center;
