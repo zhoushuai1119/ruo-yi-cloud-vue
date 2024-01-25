@@ -72,7 +72,7 @@ export function getCodeImg(): AxiosPromise<VerifyCodeResult> {
 /**
  * 获取手机验证码
  */
-export function getSmsCode(phonenumber: string): AxiosPromise<any> {
+export function sendSmsCode(phonenumber: string): AxiosPromise<any> {
   return request({
     url: '/auth/sms/sendCode',
     headers: {

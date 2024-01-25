@@ -44,14 +44,14 @@
 </template>
 
 <script setup lang="ts">
-import {getTenantList} from '@/api/login';
-import {LoginStateEnum, useLoginState} from './loginState';
-import {useUserStore} from '@/store/modules/user';
-import {LoginData, TenantVO} from '@/api/types';
+import { getTenantList, sendSmsCode } from '@/api/login';
+import { LoginStateEnum, useLoginState } from './loginState';
+import { useUserStore } from '@/store/modules/user';
+import { LoginData, TenantVO } from '@/api/types';
+import { to } from "await-to-js";
 import "@/assets/styles/captcha/css/tac.css";
 import "@/assets/styles/captcha/js/jquery.min.js";
 import "@/assets/styles/captcha/js/tac.min.js";
-import {to} from "await-to-js";
 
 const mobileCodeTimer = ref(0);
 const userStore = useUserStore();
@@ -120,14 +120,18 @@ const loginbtn = () => {
 
 const getSmsCode = async () => {
   console.log('开始发送短信验证码...');
-  // 设置倒计时
-  mobileCodeTimer.value = 60;
-  let msgTimer = setInterval(() => {
-    mobileCodeTimer.value = mobileCodeTimer.value - 1
-    if (mobileCodeTimer.value <= 0) {
-      clearInterval(msgTimer)
-    }
-  }, 1000);
+  let phonenumber = smsLoginForm.value.phonenumber;
+  await sendSmsCode(phonenumber as string).then(async () => {
+    ElMessage.success('短信验证码已发送!')
+    // 设置倒计时
+    mobileCodeTimer.value = 60
+    let msgTimer = setInterval(() => {
+      mobileCodeTimer.value = mobileCodeTimer.value - 1
+      if (mobileCodeTimer.value <= 0) {
+        clearInterval(msgTimer)
+      }
+    }, 1000)
+  })
 }
 
 
