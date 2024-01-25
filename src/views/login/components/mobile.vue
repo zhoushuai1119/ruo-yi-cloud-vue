@@ -10,7 +10,7 @@
       </el-select>
     </el-form-item>
     <el-form-item prop="phonenumber">
-      <el-input v-model="smsLoginForm.phonenumber" type="text" size="large" auto-complete="off" placeholder="手机号">
+      <el-input v-model="smsLoginForm.phonenumber" type="text" size="large" auto-complete="off" placeholder="请输入手机号">
         <template #prefix>
           <svg-icon icon-class="phone" class="el-input__icon input-icon" />
         </template>
@@ -21,8 +21,8 @@
         <el-col>
           <el-input v-model="smsLoginForm.smsCode" prefix-icon="el-icon-circle-check" placeholder="请输入验证码">
             <template #append>
-              <span v-if="mobileCodeTimer <= 0" @click="getSmsCode"> 获取验证码 </span>
-              <span v-if="mobileCodeTimer > 0"> {{ mobileCodeTimer }}秒后可重新获取 </span>
+              <span v-if="mobileCodeTimer <= 0" @click="sendSmsCode">获取验证码</span>
+              <span v-if="mobileCodeTimer > 0">{{ mobileCodeTimer }}秒后可重新获取</span>
             </template>
           </el-input>
         </el-col>
@@ -44,9 +44,10 @@
 </template>
 
 <script setup lang="ts">
-import { getTenantList, sendSmsCode } from '@/api/login';
+import { getTenantList } from '@/api/login';
 import { LoginStateEnum, useLoginState } from './loginState';
 import { useUserStore } from '@/store/modules/user';
+import { smsCode } from "@/api/system/sms";
 import { LoginData, TenantVO } from '@/api/types';
 import { to } from "await-to-js";
 import "@/assets/styles/captcha/css/tac.css";
@@ -118,10 +119,9 @@ const loginbtn = () => {
   new (window as any).TAC(config, style).init();
 };
 
-const getSmsCode = async () => {
-  console.log('开始发送短信验证码...');
-  let phonenumber = smsLoginForm.value.phonenumber;
-  await sendSmsCode(phonenumber as string).then(async () => {
+const sendSmsCode = async () => {
+  const phonenumber = smsLoginForm.value.phonenumber;
+  await smsCode(phonenumber as string).then(async () => {
     ElMessage.success('短信验证码已发送!')
     // 设置倒计时
     mobileCodeTimer.value = 60
@@ -163,12 +163,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.sms-code {
-  width: 33%;
-  height: 40px;
-  float: right;
-}
-
 #sms-captcha-div {
   position: absolute;
   top: 50%;

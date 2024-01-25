@@ -70,21 +70,6 @@ export function getCodeImg(): AxiosPromise<VerifyCodeResult> {
 }
 
 /**
- * 获取手机验证码
- */
-export function sendSmsCode(phonenumber: string): AxiosPromise<any> {
-  return request({
-    url: '/auth/sms/sendCode',
-    headers: {
-      isToken: false
-    },
-    method: 'get',
-    params: phonenumber,
-    timeout: 20000
-  });
-}
-
-/**
  * 第三方登录
  */
 export function callback(data: LoginData): AxiosPromise<any> {
