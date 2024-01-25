@@ -21,13 +21,13 @@
         <div style="text-align: center">
           <el-form-item style="display: inline-block">
             <el-button circle title="微信登录" @click="doSocialLogin('wechat')">
-              <svg-icon icon-class="wechat"/>
+              <svg-icon icon-class="wechat" />
             </el-button>
             <el-button circle title="Gitee登录" @click="doSocialLogin('gitee')">
-              <svg-icon icon-class="gitee"/>
+              <svg-icon icon-class="gitee" />
             </el-button>
             <el-button circle title="Github登录" @click="doSocialLogin('github')">
-              <svg-icon icon-class="github"/>
+              <svg-icon icon-class="github" />
             </el-button>
           </el-form-item>
         </div>

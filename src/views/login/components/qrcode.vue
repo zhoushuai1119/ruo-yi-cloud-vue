@@ -16,7 +16,3 @@ import { LoginStateEnum, useLoginState } from './loginState';
 const { getLoginState, handleBackLogin } = useLoginState();
 const getShow = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE);
 </script>
-
-<style lang="scss" scoped>
-
-</style>
