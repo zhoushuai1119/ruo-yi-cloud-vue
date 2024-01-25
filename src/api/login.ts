@@ -1,7 +1,7 @@
 import request from '@/utils/request';
-import {AxiosPromise} from 'axios';
-import {LoginData, LoginResult, VerifyCodeResult, TenantInfo} from './types';
-import {UserInfo} from '@/api/system/user/types';
+import { AxiosPromise } from 'axios';
+import { LoginData, LoginResult, VerifyCodeResult, TenantInfo } from './types';
+import { UserInfo } from '@/api/system/user/types';
 
 // pc端固定客户端授权id
 const clientId = import.meta.env.VITE_APP_CLIENT_ID;
@@ -65,6 +65,21 @@ export function getCodeImg(): AxiosPromise<VerifyCodeResult> {
       isToken: false
     },
     method: 'get',
+    timeout: 20000
+  });
+}
+
+/**
+ * 获取手机验证码
+ */
+export function getSmsCode(phonenumber: string): AxiosPromise<any> {
+  return request({
+    url: '/auth/sms/sendCode',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    params: phonenumber,
     timeout: 20000
   });
 }
