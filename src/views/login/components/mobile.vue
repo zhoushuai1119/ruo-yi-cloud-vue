@@ -122,17 +122,17 @@ const loginbtn = () => {
 const sendSmsCode = async () => {
   const phonenumber = smsLoginForm.value.phonenumber;
   await smsCode(phonenumber as string).then(async () => {
-    ElMessage.success('短信验证码已发送!')
+    ElMessage.success('短信验证码已发送!');
     // 设置倒计时
-    mobileCodeTimer.value = 60
+    mobileCodeTimer.value = 60;
     let msgTimer = setInterval(() => {
-      mobileCodeTimer.value = mobileCodeTimer.value - 1
+      mobileCodeTimer.value = mobileCodeTimer.value - 1;
       if (mobileCodeTimer.value <= 0) {
-        clearInterval(msgTimer)
+        clearInterval(msgTimer);
       }
-    }, 1000)
-  })
-}
+    }, 1000);
+  });
+};
 
 
 const handleLogin = () => {
