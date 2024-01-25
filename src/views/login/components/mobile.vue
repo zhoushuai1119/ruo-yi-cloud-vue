@@ -3,28 +3,27 @@
     <h3 class="title">RuoYi-Cloud-Plus多租户管理系统</h3>
     <el-form-item prop="tenantId" v-if="tenantEnabled">
       <el-select v-model="smsLoginForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
-        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName"
-                   :value="item.tenantId"></el-option>
+        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId"></el-option>
         <template #prefix>
-          <svg-icon icon-class="company" class="el-input__icon input-icon"/>
+          <svg-icon icon-class="company" class="el-input__icon input-icon" />
         </template>
       </el-select>
     </el-form-item>
     <el-form-item prop="phonenumber">
       <el-input v-model="smsLoginForm.phonenumber" type="text" size="large" auto-complete="off" placeholder="手机号">
         <template #prefix>
-          <svg-icon icon-class="phone" class="el-input__icon input-icon"/>
+          <svg-icon icon-class="phone" class="el-input__icon input-icon" />
         </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="smsCode">
       <el-input v-model="smsLoginForm.smsCode" size="large" auto-complete="off" placeholder="验证码" style="width: 63%">
         <template #prefix>
-          <svg-icon icon-class="validCode" class="el-input__icon input-icon"/>
+          <svg-icon icon-class="validCode" class="el-input__icon input-icon" />
         </template>
       </el-input>
       <div class="sms-code">
-        <el-button>111</el-button>
+        <el-button>获取验证码</el-button>
       </div>
     </el-form-item>
     <el-form-item style="padding: 10px 0px 0px 0px;">
