@@ -120,7 +120,8 @@ const loginbtn = () => {
 };
 
 const sendSmsCode = async () => {
-  const phonenumber = smsLoginForm.value.phonenumber;
+  let phonenumber = smsLoginForm.value.phonenumber;
+  console.log('发送短信验证码手机号为:', phonenumber);
   await smsCode(phonenumber as string).then(async () => {
     ElMessage.success('短信验证码已发送!');
     // 设置倒计时
@@ -133,7 +134,6 @@ const sendSmsCode = async () => {
     }, 1000);
   });
 };
-
 
 const handleLogin = () => {
   smsLoginRef.value?.validate(async (valid: boolean, fields: any) => {
