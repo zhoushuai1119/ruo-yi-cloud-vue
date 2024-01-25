@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginRef" :model="loginForm" :rules="loginRules">
+  <el-form v-show="getShow" ref="loginRef" :model="loginForm" :rules="loginRules">
     <el-form-item prop="tenantId" v-if="tenantEnabled">
       <el-select v-model="loginForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
         <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName"
@@ -36,7 +36,7 @@
       </div>
     </el-form-item>
     <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 0px 0px;">记住密码</el-checkbox>
-    <el-form-item style="padding: 10px 0px;">
+    <el-form-item style="padding: 10px 0px 0px 0px;">
       <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
@@ -50,16 +50,20 @@
 </template>
 
 <script setup lang="ts">
-import {getCodeImg, getTenantList} from '@/api/login';
-import {useUserStore} from '@/store/modules/user';
-import {LoginData, TenantVO} from '@/api/types';
-import {to} from 'await-to-js';
+import { getCodeImg, getTenantList } from '@/api/login';
+import { LoginStateEnum, useLoginState } from './loginState';
+import { useUserStore } from '@/store/modules/user';
+import { LoginData, TenantVO } from '@/api/types';
+import { to } from 'await-to-js';
 import "@/assets/styles/captcha/css/tac.css";
 import "@/assets/styles/captcha/js/jquery.min.js";
 import "@/assets/styles/captcha/js/tac.min.js";
 
 const userStore = useUserStore();
 const router = useRouter();
+
+const { getLoginState } = useLoginState();
+const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
 
 const loginForm = ref<LoginData>({
   tenantId: '000000',

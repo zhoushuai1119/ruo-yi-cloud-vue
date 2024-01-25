@@ -2,7 +2,13 @@
   <div class="login">
     <div class="login-form">
       <h3 class="title">RuoYi-Cloud-Plus多租户管理系统</h3>
-      <Password/>
+      <Password />
+      <QrCode />
+      <el-form-item style="padding: 0px 0px 15px 0px;">
+        <el-button plain size="large" style="width:100%;" @click="setLoginState(LoginStateEnum.QR_CODE)">
+          <span>二维码登录</span>
+        </el-button>
+      </el-form-item>
       <el-divider>第三方登录</el-divider>
       <div style="text-align: center">
         <el-form-item style="display: inline-block">
@@ -26,10 +32,14 @@
 </template>
 
 <script setup lang="ts">
-import {authBinding} from '@/api/system/social/auth';
-import {HttpStatus} from "@/enums/RespEnum";
+import { authBinding } from '@/api/system/social/auth';
+import { HttpStatus } from "@/enums/RespEnum";
+import { LoginStateEnum, useLoginState } from './components/loginState';
 
 import Password from './components/password.vue';
+import QrCode from './components/qrcode.vue';
+
+const { setLoginState } = useLoginState();
 
 /**
  * 第三方登录
