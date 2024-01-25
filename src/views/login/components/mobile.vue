@@ -17,14 +17,16 @@
       </el-input>
     </el-form-item>
     <el-form-item prop="smsCode">
-      <el-input v-model="smsLoginForm.smsCode" size="large" auto-complete="off" placeholder="验证码" style="width: 63%">
-        <template #prefix>
-          <svg-icon icon-class="validCode" class="el-input__icon input-icon" />
-        </template>
-      </el-input>
-      <div class="sms-code">
-        <el-button>获取验证码</el-button>
-      </div>
+      <el-row style="width: 100%">
+        <el-col>
+          <el-input v-model="smsLoginForm.smsCode" prefix-icon="el-icon-circle-check" placeholder="请输入验证码">
+            <template #append>
+              <span v-if="mobileCodeTimer <= 0" @click="getSmsCode"> 获取验证码 </span>
+              <span v-if="mobileCodeTimer > 0"> {{ mobileCodeTimer }}秒后可重新获取 </span>
+            </template>
+          </el-input>
+        </el-col>
+      </el-row>
     </el-form-item>
     <el-form-item style="padding: 10px 0px 0px 0px;">
       <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
@@ -51,6 +53,7 @@ import "@/assets/styles/captcha/js/jquery.min.js";
 import "@/assets/styles/captcha/js/tac.min.js";
 import {to} from "await-to-js";
 
+const mobileCodeTimer = ref(0);
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -114,6 +117,19 @@ const loginbtn = () => {
   };
   new (window as any).TAC(config, style).init();
 };
+
+const getSmsCode = async () => {
+  console.log('开始发送短信验证码...');
+  // 设置倒计时
+  mobileCodeTimer.value = 60;
+  let msgTimer = setInterval(() => {
+    mobileCodeTimer.value = mobileCodeTimer.value - 1
+    if (mobileCodeTimer.value <= 0) {
+      clearInterval(msgTimer)
+    }
+  }, 1000);
+}
+
 
 const handleLogin = () => {
   smsLoginRef.value?.validate(async (valid: boolean, fields: any) => {
