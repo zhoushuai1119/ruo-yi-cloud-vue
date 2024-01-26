@@ -29,7 +29,7 @@
       </el-row>
     </el-form-item>
     <el-form-item style="padding: 10px 0px 0px 0px;">
-      <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="loginbtn">
+      <el-button :loading="loading" size="large" type="primary" style="width:100%;" @click.prevent="handleLogin">
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
       </el-button>
@@ -40,7 +40,6 @@
       </el-button>
     </div>
   </el-form>
-  <div id="sms-captcha-div"></div>
 </template>
 
 <script setup lang="ts">
@@ -50,9 +49,6 @@ import { useUserStore } from '@/store/modules/user';
 import { smsCode } from "@/api/system/sms";
 import { LoginData, TenantVO } from '@/api/types';
 import { to } from "await-to-js";
-import "@/assets/styles/captcha/css/tac.css";
-import "@/assets/styles/captcha/js/jquery.min.js";
-import "@/assets/styles/captcha/js/tac.min.js";
 
 const mobileCodeTimer = ref(0);
 const userStore = useUserStore();
@@ -73,6 +69,7 @@ const smsLoginForm = ref<LoginData>({
   tenantId: '000000',
   phonenumber: '17756228281',
   smsCode: '',
+  grantType: 'sms',
   uuid: ''
 } as LoginData);
 
@@ -95,29 +92,6 @@ const initTenantList = async () => {
     }
   }
 }
-
-const loginbtn = () => {
-  const config = {
-    requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image?type=RANDOM",
-    validCaptchaUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/check",
-    bindEl: "#sms-captcha-div",
-    // 验证成功回调函数
-    validSuccess: (res: any, c: any, tac: any) => {
-      handleLogin();
-      tac.destroyWindow();
-    },
-    // 验证失败的回调函数(可忽略; 如果不自定义会使用默认的)
-    validFail: (res: any, c: any, tac: any) => {
-      console.log('滑块验证码验证失败重新拉取验证码');
-      // 验证失败后重新拉取验证码
-      tac.reloadCaptcha();
-    }
-  };
-  const style = {
-    logoUrl: "src/assets/images/captcha-slider.png"
-  };
-  new (window as any).TAC(config, style).init();
-};
 
 const sendSmsCode = async () => {
   let phonenumber = smsLoginForm.value.phonenumber;
@@ -157,16 +131,12 @@ const handleLogin = () => {
   });
 };
 
+//检测租户选择框的变化
+watch(() => smsLoginForm.value.tenantId, () => {
+  localStorage.setItem("tenantId", String(smsLoginForm.value.tenantId))
+});
+
 onMounted(() => {
   initTenantList();
 });
 </script>
-
-<style lang="scss" scoped>
-#sms-captcha-div {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

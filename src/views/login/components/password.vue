@@ -41,7 +41,7 @@
       </el-button>
     </el-form-item>
   </el-form>
-  <div id="pas-captcha-div"></div>
+  <div id="captcha-div"></div>
 </template>
 
 <script setup lang="ts">
@@ -97,7 +97,7 @@ const loginbtn = () => {
   const config = {
     requestCaptchaDataUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/image?type=RANDOM",
     validCaptchaUrl: import.meta.env.VITE_APP_BASE_API + "/auth/slider/captcha/check",
-    bindEl: "#pas-captcha-div",
+    bindEl: "#captcha-div",
     // 验证成功回调函数
     validSuccess: (res: any, c: any, tac: any) => {
       handleLogin();
@@ -221,7 +221,7 @@ onMounted(() => {
   padding-left: 12px;
 }
 
-#pas-captcha-div {
+#captcha-div {
   position: absolute;
   top: 50%;
   left: 50%;
