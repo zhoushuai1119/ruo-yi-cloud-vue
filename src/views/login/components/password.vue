@@ -10,18 +10,10 @@
       </el-select>
     </el-form-item>
     <el-form-item prop="username">
-      <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
-        <template #prefix>
-          <svg-icon icon-class="user" class="el-input__icon input-icon" />
-        </template>
-      </el-input>
+      <el-input v-model="loginForm.username" prefix-icon="User" type="text" auto-complete="off" placeholder="账号" />
     </el-form-item>
     <el-form-item prop="password">
-      <el-input v-model="loginForm.password" type="password" size="large" auto-complete="off" placeholder="密码" @keyup.enter="handleLogin">
-        <template #prefix>
-          <svg-icon icon-class="password" class="el-input__icon input-icon" />
-        </template>
-      </el-input>
+      <el-input v-model="loginForm.password" prefix-icon="Lock" type="password" auto-complete="off" placeholder="密码" @keyup.enter="handleLogin" />
     </el-form-item>
     <el-form-item prop="code" v-if="captchaEnabled">
       <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter="handleLogin">
