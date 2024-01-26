@@ -95,7 +95,6 @@ const initTenantList = async () => {
 
 const sendSmsCode = async () => {
   let phonenumber = smsLoginForm.value.phonenumber;
-  console.log('发送短信验证码手机号为:', phonenumber);
   await smsCode(phonenumber as string).then(async () => {
     ElMessage.success('短信验证码已发送!');
     // 设置倒计时
@@ -113,10 +112,6 @@ const handleLogin = () => {
   smsLoginRef.value?.validate(async (valid: boolean, fields: any) => {
     if (valid) {
       loading.value = true;
-      // 否则移除
-      localStorage.removeItem("tenantId");
-      localStorage.removeItem('phonenumber');
-      localStorage.removeItem('smsCode');
       // 调用action的登录方法
       const [err] = await to(userStore.login(smsLoginForm.value));
       if (!err) {
@@ -130,11 +125,6 @@ const handleLogin = () => {
     }
   });
 };
-
-//检测租户选择框的变化
-watch(() => smsLoginForm.value.tenantId, () => {
-  localStorage.setItem("tenantId", String(smsLoginForm.value.tenantId))
-});
 
 onMounted(() => {
   initTenantList();
