@@ -11,32 +11,35 @@
       </el-select>
     </el-form-item>
     <el-form-item prop="username">
-      <el-input v-model="registerForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
-        <template #prefix>
-          <svg-icon icon-class="user" class="el-input__icon input-icon"/>
-        </template>
+      <el-input
+        v-model="registerForm.username"
+        prefix-icon="User"
+        type="text"
+        size="large"
+        auto-complete="off"
+        placeholder="账号">
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input v-model="registerForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
-                @keyup.enter="handleRegister">
-        <template #prefix>
-          <svg-icon icon-class="password" class="el-input__icon input-icon"/>
-        </template>
+      <el-input
+        v-model="registerForm.password"
+        prefix-icon="Lock"
+        type="password"
+        size="large"
+        auto-complete="off"
+        placeholder="密码"
+        @keyup.enter="handleRegister">
       </el-input>
     </el-form-item>
     <el-form-item prop="confirmPassword">
       <el-input
         v-model="registerForm.confirmPassword"
+        prefix-icon="Lock"
         type="password"
         size="large"
         auto-complete="off"
         placeholder="确认密码"
-        @keyup.enter="handleRegister"
-      >
-        <template #prefix>
-          <svg-icon icon-class="password" class="el-input__icon input-icon"/>
-        </template>
+        @keyup.enter="handleRegister">
       </el-input>
     </el-form-item>
     <el-form-item prop="code" v-if="captchaEnabled">
@@ -58,7 +61,7 @@
     </el-form-item>
     <div style="padding: 0px 0px 20px 0px;">
       <el-button plain size="large" style="width:100%;" @click="handleBackLogin">
-        <span>返回</span>
+        <span>使用已有账户登录</span>
       </el-button>
     </div>
   </el-form>
@@ -137,7 +140,7 @@ const handleRegister = () => {
       } else {
         loading.value = false;
         if (captchaEnabled) {
-          getCode();
+          await getCode();
         }
       }
     }
@@ -172,12 +175,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.register-tip {
-  font-size: 13px;
-  text-align: center;
-  color: #bfbfbf;
-}
-
 .register-code {
   width: 33%;
   height: 40px;
@@ -187,19 +184,6 @@ onMounted(() => {
     cursor: pointer;
     vertical-align: middle;
   }
-}
-
-.el-register-footer {
-  height: 40px;
-  line-height: 40px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  font-family: Arial, serif;
-  font-size: 12px;
-  letter-spacing: 1px;
 }
 
 .register-code-img {
