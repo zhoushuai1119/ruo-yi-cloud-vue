@@ -24,6 +24,7 @@
       <el-input
         v-model="registerForm.password"
         prefix-icon="Lock"
+        show-password
         type="password"
         size="large"
         auto-complete="off"
@@ -35,6 +36,7 @@
       <el-input
         v-model="registerForm.confirmPassword"
         prefix-icon="Lock"
+        show-password
         type="password"
         size="large"
         auto-complete="off"
