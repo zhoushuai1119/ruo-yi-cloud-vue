@@ -20,7 +20,7 @@ import { LoginStateEnum, useLoginState } from './loginState';
 const { getLoginState, handleBackLogin } = useLoginState();
 const getShow = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE);
 
-const qrCodeUrl = ref('www.baidu.con');
+const qrCodeUrl = ref('https://qm.qq.com/cgi-bin/qm/qr?k=RdUY97Vx0T0vZ_1OOu-X1yFNkWgDwbjC&jump_from=webapi');
 </script>
 
 <style lang="scss" scoped>
