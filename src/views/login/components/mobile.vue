@@ -19,7 +19,7 @@
     <el-form-item prop="smsCode">
       <el-input v-model="smsLoginForm.smsCode" prefix-icon="CircleCheck" placeholder="请输入验证码">
         <template #append>
-          <span v-if="mobileCodeTimer <= 0" @click="sendSmsCode">获取验证码</span>
+          <span v-if="mobileCodeTimer <= 0" title="点击获取验证码" @click="sendSmsCode">获取验证码</span>
           <span v-else>{{ mobileCodeTimer }}秒后可重新获取</span>
         </template>
       </el-input>
